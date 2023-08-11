@@ -29,10 +29,13 @@ public class RegionService {
         Optional<Region> oldRegion = this.getRegionById(newRegion.getId());
         if (oldRegion.isPresent()) {
             Region updatedRegion = oldRegion.get();
-            if (!updatedRegion.getNomRegion().equals(newRegion.getNomRegion())){
+            if (updatedRegion.getNomRegion() != null){
                 updatedRegion.setNomRegion(newRegion.getNomRegion());
             }
-            return updatedRegion;
+            if (updatedRegion.getBureau() == null) {
+                updatedRegion.setBureau(newRegion.getBureau());
+            }
+            return regionRepository.save(updatedRegion);
         } else {
             return null;
         }

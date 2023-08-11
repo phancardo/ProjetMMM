@@ -17,17 +17,6 @@ public class Bureau {
     @Column(length = 50, nullable = false)
     private String lieuBureau;
 
-    @Column(length = 15, nullable = false)
-    private String typeBureau;
-
-    @Column(length = 50, nullable = false)
-    private String typeLieu;
-
-    @Column(length = 10)
-    private int recepNumero;
-
-    private String recepImage;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_bureau")
     private List<Personnel> personnel = new ArrayList<>();

@@ -1,8 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.model.Bureau;
-import com.example.server.model.Province;
-import com.example.server.model.Region;
+import com.example.server.model.*;
 import com.example.server.repository.BureauRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +19,12 @@ public class BureauService {
     @Autowired
     private RegionService regionService;
 
+    @Autowired
+    private DistrictService districtService;
+
+    @Autowired
+    private CommuneService communeService;
+
     public Optional<Bureau> getBureauById(int id) {
         return bureauRepository.findById(id);
     }
@@ -29,36 +33,37 @@ public class BureauService {
         return bureauRepository.findAll();
     }
 
-    public Bureau addBureau(Bureau newBureau) {
-        String province = "province";
-        String region = "region";
-        String district = "district";
-        String commune = "commune";
-        if (newBureau.getTypeBureau().equals(province)){
-            String typeLieu = newBureau.getTypeLieu();
-            Optional<Province> getBureauProvince = provinceService.getProvinceByNom(typeLieu);
-            if (getBureauProvince.isPresent()) {
-                Province setBureauProvince = getBureauProvince.get();
-                setBureauProvince.setBureau(newBureau);
-                Bureau addedBureau = bureauRepository.save(newBureau);
-                provinceService.addProvince(setBureauProvince);
-                return addedBureau;
-            } else {
-                return null;
-            }
-        } else if (newBureau.getTypeBureau().equals(region)) {
-            String typeLieu = newBureau.getTypeLieu();
-            Optional<Region> getBureauRegion = regionService.getRegionByNom(typeLieu);
-            if (getBureauRegion.isPresent()) {
-                Region setBureauRegion = getBureauRegion.get();
-                setBureauRegion.setBureau(newBureau);
-                Bureau addedBureau = bureauRepository.save(newBureau);
-                regionService.addRegion(setBureauRegion);
-                return addedBureau;
-            } else {
-                return null;
-            }
-        } else {
+    public Bureau addBureau(Bureau newBureau, int id) {
+        Optional<Province> existProvince = provinceService.getProvinceById(id);
+        Optional<Region> existRegion = regionService.getRegionById(id);
+        Optional<District> existDistrict = districtService.getDistrictById(id);
+        Optional<Commune> existCommune = communeService.getCommuneById(id);
+        if (existProvince.isPresent()) {
+            Province province = existProvince.get();
+            Bureau savedBureau = bureauRepository.save(newBureau);
+            province.setBureau(savedBureau);
+            provinceService.addProvince(province);
+            return savedBureau;
+        } else if (existRegion.isPresent()) {
+            Region region = existRegion.get();
+            Bureau savedBureau = bureauRepository.save(newBureau);
+            region.setBureau(savedBureau);
+            regionService.addRegion(region);
+            return savedBureau;
+        } else if (existDistrict.isPresent()) {
+            District district = existDistrict.get();
+            Bureau savedBureau = bureauRepository.save(newBureau);
+            district.setBureau(savedBureau);
+            districtService.addDistrict(district);
+            return savedBureau;
+        } else if (existCommune.isPresent()) {
+            Commune commune = existCommune.get();
+            Bureau savedBureau = bureauRepository.save(newBureau);
+            commune.setBureau(savedBureau);
+            communeService.addCommune(commune);
+            return savedBureau;
+        }
+        else {
             return null;
         }
     }
