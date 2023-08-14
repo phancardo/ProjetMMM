@@ -25,11 +25,16 @@ public class BureauController {
         return bureauService.getAllBureau();
     }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public Bureau addBureau(@RequestBody Map<String, String> bureauMap) {
         Bureau newBureau = new Bureau();
         newBureau.setLieuBureau(bureauMap.get("lieuBureau"));
         int id = Integer.parseInt(bureauMap.get("idPlace"));
         return bureauService.addBureau(newBureau, id);
+    }
+
+    @PutMapping("/update")
+    public Bureau updateBureau(@RequestBody Bureau upBureau) {
+        return bureauService.updateBureau(upBureau);
     }
 }

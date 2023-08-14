@@ -14,7 +14,7 @@ import java.util.List;
 public class Province {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "nom_province", length = 50, nullable = false)

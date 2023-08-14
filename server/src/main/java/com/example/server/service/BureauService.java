@@ -67,4 +67,28 @@ public class BureauService {
             return null;
         }
     }
+
+    public Bureau addNewPersonnel(Personnel newPersonnel, int id) {
+        Optional<Bureau> isExistBureau = getBureauById(id);
+        if (isExistBureau.isPresent()) {
+            Bureau upToDateBureau = isExistBureau.get();
+            upToDateBureau.getPersonnel().add(newPersonnel);
+            return bureauRepository.save(upToDateBureau);
+        } else {
+            return null;
+        }
+    }
+
+    public Bureau updateBureau(Bureau upBureau) {
+        Optional<Bureau> isExistBureau = getBureauById(upBureau.getId());
+        if (isExistBureau.isPresent()) {
+            Bureau oldBureau = isExistBureau.get();
+            if (upBureau.getLieuBureau() != null) {
+                oldBureau.setLieuBureau(upBureau.getLieuBureau());
+            }
+            return bureauRepository.save(oldBureau);
+        } else {
+            return null;
+        }
+    }
 }

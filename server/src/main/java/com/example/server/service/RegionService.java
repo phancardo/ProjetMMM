@@ -5,6 +5,7 @@ import com.example.server.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,17 +26,17 @@ public class RegionService {
         return regionRepository.save(newRegion);
     }
 
-    public Region updateRegion(Region  newRegion) {
-        Optional<Region> oldRegion = this.getRegionById(newRegion.getId());
-        if (oldRegion.isPresent()) {
-            Region updatedRegion = oldRegion.get();
-            if (updatedRegion.getNomRegion() != null){
-                updatedRegion.setNomRegion(newRegion.getNomRegion());
+    public Region updateRegion(Region  upRegion) {
+        Optional<Region> isExistRegion = this.getRegionById(upRegion.getId());
+        if (isExistRegion.isPresent()) {
+            Region oldRegion = isExistRegion.get();
+            if (upRegion.getNomRegion() != null){
+                oldRegion.setNomRegion(upRegion.getNomRegion());
             }
-            if (updatedRegion.getBureau() == null) {
-                updatedRegion.setBureau(newRegion.getBureau());
+            if (upRegion.getBureau() != null) {
+                oldRegion.setBureau(upRegion.getBureau());
             }
-            return regionRepository.save(updatedRegion);
+            return regionRepository.save(upRegion);
         } else {
             return null;
         }
@@ -43,5 +44,9 @@ public class RegionService {
 
     public Optional<Region> getRegionByNom(String nom) {
         return regionRepository.findByNomRegion(nom);
+    }
+
+    public List<Region> addListRegion(List<Region> regionList) {
+        return regionRepository.saveAll(regionList);
     }
 }

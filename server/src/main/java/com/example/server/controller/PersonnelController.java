@@ -5,6 +5,7 @@ import com.example.server.service.PersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,8 +25,23 @@ public class PersonnelController {
         return personnelService.getAllPersonnel();
     }
 
-    @PostMapping("")
-    public Personnel addPersonnel(@RequestBody Personnel newPersonnel) {
-        return personnelService.addPersonnel(newPersonnel);
+    @PostMapping("/add")
+    public Personnel addPersonnel(@RequestBody Map<String, String> mapPersonnel) {
+        int idBureau = Integer.parseInt(mapPersonnel.get("idBureau"));
+
+        Personnel newPersonnel = new Personnel();
+        newPersonnel.setNomPersonnel(mapPersonnel.get("nomPersonnel"));
+        newPersonnel.setPrenomPersonnel(mapPersonnel.get("prenomPersonnel"));
+        newPersonnel.setAdresse(mapPersonnel.get("addresse"));
+        newPersonnel.setEmail(mapPersonnel.get("email"));
+        newPersonnel.setPoste(mapPersonnel.get("poste"));
+        newPersonnel.setTel(Integer.parseInt(mapPersonnel.get("tel")));
+
+        return personnelService.addPersonnel(newPersonnel, idBureau);
+    }
+
+    @PutMapping("/update")
+    public Personnel updatePersonnel(@RequestBody Personnel upPersonnel) {
+        return personnelService.updatePersonnel(upPersonnel);
     }
 }

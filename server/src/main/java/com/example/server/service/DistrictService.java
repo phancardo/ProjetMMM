@@ -24,4 +24,20 @@ public class DistrictService {
     public District addDistrict(District newDistrict) {
         return districtRepository.save(newDistrict);
     }
+
+    public District updateDistrict(District upDistrict) {
+        Optional<District> isExistDistrict = districtRepository.findById(upDistrict.getId());
+        if (isExistDistrict.isPresent()) {
+            District oldDistrict = isExistDistrict.get();
+            if (upDistrict.getNomDistrict() != null) {
+                oldDistrict.setNomDistrict(upDistrict.getNomDistrict());
+            }
+            if (upDistrict.getBureau() != null) {
+                oldDistrict.setBureau(upDistrict.getBureau());
+            }
+            return districtRepository.save(oldDistrict);
+        } else {
+            return null;
+        }
+    }
 }

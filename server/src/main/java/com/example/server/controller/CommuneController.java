@@ -24,8 +24,13 @@ public class CommuneController {
         return communeService.getAllCommune();
     }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public Commune addCommune(@RequestBody Commune newCommune) {
         return communeService.addCommune(newCommune);
+    }
+
+    @PutMapping("/update")
+    public Commune updateCommune(@RequestBody Commune upCommune) {
+        return communeService.updateCommune(upCommune);
     }
 }

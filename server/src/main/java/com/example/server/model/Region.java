@@ -14,7 +14,7 @@ import java.util.List;
 public class Region {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "nom_region", length = 50, nullable = false)

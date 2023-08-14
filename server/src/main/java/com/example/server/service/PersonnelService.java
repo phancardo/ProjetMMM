@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.model.Bureau;
 import com.example.server.model.Personnel;
 import com.example.server.repository.PersonnelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ public class PersonnelService {
     @Autowired
     private PersonnelRepository personnelRepository;
 
+    @Autowired
+    private BureauService bureauService;
+
     public Optional<Personnel> getPersonnelById(int id) {
         return personnelRepository.findById(id);
     }
@@ -21,7 +25,44 @@ public class PersonnelService {
         return personnelRepository.findAll();
     }
 
-    public Personnel addPersonnel(Personnel newPersonnel) {
-        return personnelRepository.save(newPersonnel);
+    public Personnel addPersonnel(Personnel newPersonnel, int id) {
+        Optional<Bureau> isExistBureau = bureauService.getBureauById(id);
+        if (isExistBureau.isPresent()) {
+            Bureau updateBureau = isExistBureau.get();
+            Personnel addPersonnel = personnelRepository.save(newPersonnel);
+            updateBureau.getPersonnel().add(addPersonnel);
+            bureauService.addNewPersonnel(newPersonnel, id);
+            return addPersonnel;
+        } else {
+            return null;
+        }
+    }
+
+    public Personnel updatePersonnel(Personnel upPersonnel) {
+        Optional<Personnel> isExistPersonnel = personnelRepository.findById(upPersonnel.getId());
+        if (isExistPersonnel.isPresent()) {
+            Personnel personnel = isExistPersonnel.get();
+            if (upPersonnel.getNomPersonnel() != null) {
+                personnel.setNomPersonnel(upPersonnel.getNomPersonnel());
+            }
+            if (upPersonnel.getPrenomPersonnel() != null) {
+                personnel.setPrenomPersonnel(upPersonnel.getPrenomPersonnel());
+            }
+            if (upPersonnel.getAdresse() != null) {
+                personnel.setAdresse(upPersonnel.getAdresse());
+            }
+            if (upPersonnel.getEmail() != null) {
+                personnel.setEmail(upPersonnel.getEmail());
+            }
+            if (upPersonnel.getPoste() != null) {
+                personnel.setPoste(upPersonnel.getPoste());
+            }
+            if (upPersonnel.getTel() != 0) {
+                personnel.setTel(upPersonnel.getTel());
+            }
+            return personnelRepository.save(personnel);
+        } else {
+            return null;
+        }
     }
 }

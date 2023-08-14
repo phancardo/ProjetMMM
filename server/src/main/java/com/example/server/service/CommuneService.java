@@ -24,4 +24,20 @@ public class CommuneService {
     public Commune addCommune(Commune newCommune) {
         return communeRepository.save(newCommune);
     }
+
+    public Commune updateCommune(Commune upCommune) {
+        Optional<Commune> isExistCommune = communeRepository.findById(upCommune.getId());
+        if (isExistCommune.isPresent()) {
+            Commune oldCommune = isExistCommune.get();
+            if (upCommune.getNomCommune() != null) {
+                oldCommune.setNomCommune(upCommune.getNomCommune());
+            }
+            if (upCommune.getBureau() != null) {
+                oldCommune.setBureau(upCommune.getBureau());
+            }
+            return communeRepository.save(oldCommune);
+        } else {
+            return null;
+        }
+    }
 }
