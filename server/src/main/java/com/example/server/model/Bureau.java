@@ -1,5 +1,6 @@
 package com.example.server.model;
 
+import com.example.server.model.poste.Poste;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,9 +18,8 @@ public class Bureau {
     @Column(length = 50, nullable = false)
     private String lieuBureau;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_bureau")
-    private List<Personnel> personnel = new ArrayList<>();
+    @OneToOne(fetch = FetchType.EAGER)
+    private Poste poste;
 
     public void Bureau() {
 
