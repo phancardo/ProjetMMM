@@ -25,6 +25,7 @@ public class Province {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
+    @JoinColumn(name = "id_province")
     private List<Region> regionList = new ArrayList<>();
 
     public void Province() {

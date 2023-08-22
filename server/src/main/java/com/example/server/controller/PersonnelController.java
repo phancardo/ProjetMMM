@@ -34,7 +34,7 @@ public class PersonnelController {
         newPersonnel.setPrenomPersonnel(mapPersonnel.get("prenomPersonnel"));
         newPersonnel.setAdresse(mapPersonnel.get("addresse"));
         newPersonnel.setEmail(mapPersonnel.get("email"));
-        newPersonnel.setPoste(mapPersonnel.get("poste"));
+//        newPersonnel.setPoste(mapPersonnel.get("poste"));
         newPersonnel.setTel(Integer.parseInt(mapPersonnel.get("tel")));
 
         return personnelService.addPersonnel(newPersonnel, idBureau);

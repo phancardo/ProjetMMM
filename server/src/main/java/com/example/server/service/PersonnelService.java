@@ -30,8 +30,13 @@ public class PersonnelService {
         if (isExistBureau.isPresent()) {
             Bureau updateBureau = isExistBureau.get();
             Personnel addPersonnel = personnelRepository.save(newPersonnel);
-            updateBureau.getPersonnel().add(addPersonnel);
-            bureauService.addNewPersonnel(newPersonnel, id);
+            switch (addPersonnel.getPoste()) {
+                case "coordonateur" -> updateBureau.setCoordonateur(newPersonnel);
+                case "president" -> updateBureau.setPresident(newPersonnel);
+                case "vicePresident" -> updateBureau.getVicePresident().add(newPersonnel);
+                case "tresorier" -> updateBureau.setTresorier(newPersonnel);
+                case "commissaire au compte" -> updateBureau.setCommissaireAuxCompte(newPersonnel);
+            }
             return addPersonnel;
         } else {
             return null;
@@ -53,9 +58,6 @@ public class PersonnelService {
             }
             if (upPersonnel.getEmail() != null) {
                 personnel.setEmail(upPersonnel.getEmail());
-            }
-            if (upPersonnel.getPoste() != null) {
-                personnel.setPoste(upPersonnel.getPoste());
             }
             if (upPersonnel.getTel() != 0) {
                 personnel.setTel(upPersonnel.getTel());

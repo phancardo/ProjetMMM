@@ -23,6 +23,9 @@ public class Region {
     @OneToOne(fetch = FetchType.EAGER)
     private Bureau bureau;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    private Personnel coach;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "id_region")

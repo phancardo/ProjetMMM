@@ -1,6 +1,8 @@
 package com.example.server.service;
 
+import com.example.server.model.Bureau;
 import com.example.server.model.Region;
+import com.example.server.repository.BureauRepository;
 import com.example.server.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class RegionService {
 
     @Autowired
     private RegionRepository regionRepository;
+
+    @Autowired
+    private BureauRepository bureauRepository;
 
     public Optional<Region> getRegionById(int id) {
         return regionRepository.findById(id);
@@ -37,6 +42,19 @@ public class RegionService {
                 oldRegion.setBureau(upRegion.getBureau());
             }
             return regionRepository.save(upRegion);
+        } else {
+            return null;
+        }
+    }
+
+    public Region addBureauRegion(Bureau newBureau, int idRegion) {
+        Optional<Region> isExistRegion = this.getRegionById(idRegion);
+        if (isExistRegion.isPresent()) {
+            Region upRegion = isExistRegion.get();
+            Bureau savedBureau = bureauRepository.save(newBureau);
+            upRegion.setBureau(savedBureau);
+            updateRegion(upRegion);
+            return upRegion;
         } else {
             return null;
         }

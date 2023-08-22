@@ -27,7 +27,6 @@ public class Personnel {
     @Column(length = 50, nullable = false)
     private int tel;
 
-    @Column(length = 50, nullable = false)
     private String poste;
 
     public void Personnel() {
