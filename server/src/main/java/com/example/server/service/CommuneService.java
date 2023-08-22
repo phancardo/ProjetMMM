@@ -1,6 +1,9 @@
 package com.example.server.service;
 
+import com.example.server.model.Bureau;
 import com.example.server.model.Commune;
+import com.example.server.model.District;
+import com.example.server.repository.BureauRepository;
 import com.example.server.repository.CommuneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,9 @@ public class CommuneService {
 
     @Autowired
     private CommuneRepository communeRepository;
+
+    @Autowired
+    private BureauRepository bureauRepository;
 
     public Optional<Commune> getCommuneById(int id) {
         return communeRepository.findById(id);
@@ -36,6 +42,19 @@ public class CommuneService {
                 oldCommune.setBureau(upCommune.getBureau());
             }
             return communeRepository.save(oldCommune);
+        } else {
+            return null;
+        }
+    }
+
+    public Commune addBureauCommune(Bureau newBureau, int idRegion) {
+        Optional<Commune> isExistCommune = this.getCommuneById(idRegion);
+        if (isExistCommune.isPresent()) {
+            Commune upCommune = isExistCommune.get();
+            Bureau savedBureau = bureauRepository.save(newBureau);
+            upCommune.setBureau(savedBureau);
+            this.updateCommune(upCommune);
+            return upCommune;
         } else {
             return null;
         }

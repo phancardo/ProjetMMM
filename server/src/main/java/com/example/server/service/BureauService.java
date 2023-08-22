@@ -38,13 +38,7 @@ public class BureauService {
         Optional<Region> existRegion = regionService.getRegionById(id);
         Optional<District> existDistrict = districtService.getDistrictById(id);
         Optional<Commune> existCommune = communeService.getCommuneById(id);
-        if (existProvince.isPresent()) {
-            Province province = existProvince.get();
-            Bureau savedBureau = bureauRepository.save(newBureau);
-            province.setBureau(savedBureau);
-            provinceService.addProvince(province);
-            return savedBureau;
-        } else if (existRegion.isPresent()) {
+        if (existRegion.isPresent()) {
             Region region = existRegion.get();
             Bureau savedBureau = bureauRepository.save(newBureau);
             region.setBureau(savedBureau);

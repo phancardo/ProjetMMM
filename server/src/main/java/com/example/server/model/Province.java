@@ -20,9 +20,6 @@ public class Province {
     @Column(name = "nom_province", length = 50, nullable = false)
     private String nomProvince;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    private Bureau bureau;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinColumn(name = "id_province")
