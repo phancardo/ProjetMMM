@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.model.Bureau;
+import com.example.server.model.Personnel;
 import com.example.server.model.Region;
 import com.example.server.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;

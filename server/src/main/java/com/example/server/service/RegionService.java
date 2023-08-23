@@ -1,8 +1,10 @@
 package com.example.server.service;
 
 import com.example.server.model.Bureau;
+import com.example.server.model.Personnel;
 import com.example.server.model.Region;
 import com.example.server.repository.BureauRepository;
+import com.example.server.repository.PersonnelRepository;
 import com.example.server.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class RegionService {
 
     @Autowired
     private BureauRepository bureauRepository;
+
+    @Autowired
+    private PersonnelRepository personnelRepository;
 
     public Optional<Region> getRegionById(int id) {
         return regionRepository.findById(id);
@@ -41,6 +46,9 @@ public class RegionService {
             if (upRegion.getBureau() != null) {
                 oldRegion.setBureau(upRegion.getBureau());
             }
+            if (upRegion.getCoach() != null) {
+                oldRegion.setCoach(upRegion.getCoach());
+            }
             return regionRepository.save(upRegion);
         } else {
             return null;
@@ -55,6 +63,22 @@ public class RegionService {
             upRegion.setBureau(savedBureau);
             updateRegion(upRegion);
             return upRegion;
+        } else {
+            return null;
+        }
+    }
+    
+    public Region addCoach(Personnel newCoach, int idRegion) {
+        Optional<Region> isExistRegion = this.getRegionById(idRegion);
+        if (isExistRegion.isPresent()) {
+            Region region = isExistRegion.get();
+            if (newCoach.getPoste().equals("coach")) {
+                personnelRepository.save(newCoach);
+                region.setCoach(newCoach);
+                return updateRegion(region);
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
