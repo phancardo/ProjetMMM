@@ -2,7 +2,6 @@ package com.example.server.service;
 
 import com.example.server.model.Bureau;
 import com.example.server.model.District;
-import com.example.server.model.Region;
 import com.example.server.repository.BureauRepository;
 import com.example.server.repository.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
