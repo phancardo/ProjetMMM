@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173/")
 @RequestMapping("/commune")
 public class CommuneController {
 
@@ -40,8 +41,8 @@ public class CommuneController {
     public Commune addBureauCommune(@RequestBody Map<String, String> mapBureau) {
         Bureau newBureau = new Bureau();
         newBureau.setLieuBureau(mapBureau.get("lieuBureau"));
-        int idRegion = Integer.parseInt(mapBureau.get("idRegion"));
-        Commune updatedCommune = communeService.addBureauCommune(newBureau, idRegion);
+        int idCommune = Integer.parseInt(mapBureau.get("idCommune"));
+        Commune updatedCommune = communeService.addBureauCommune(newBureau, idCommune);
         return updatedCommune;
     }
 }

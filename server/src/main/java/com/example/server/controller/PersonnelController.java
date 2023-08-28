@@ -38,7 +38,7 @@ public class PersonnelController {
         newPersonnel.setAdresse(mapPersonnel.get("addresse"));
         newPersonnel.setEmail(mapPersonnel.get("email"));
         newPersonnel.setPoste(mapPersonnel.get("poste"));
-        newPersonnel.setTel(Integer.parseInt(mapPersonnel.get("tel")));
+        newPersonnel.setTel(mapPersonnel.get("tel"));
 
         if (newPersonnel.getPoste().equals("coach")) {
             int idRegion = Integer.parseInt(mapPersonnel.get("idRegion"));

@@ -33,7 +33,7 @@ public class PersonnelService {
             switch (addPersonnel.getPoste()) {
                 case "coordonateur" -> updateBureau.setCoordonateur(newPersonnel);
                 case "president" -> updateBureau.setPresident(newPersonnel);
-                case "vicePresident" -> updateBureau.getVicePresident().add(newPersonnel);
+                case "vice president" -> updateBureau.getVicePresident().add(newPersonnel);
                 case "tresorier" -> updateBureau.setTresorier(newPersonnel);
                 case "commissaire au compte" -> updateBureau.setCommissaireAuxCompte(newPersonnel);
             }
@@ -59,7 +59,7 @@ public class PersonnelService {
             if (upPersonnel.getEmail() != null) {
                 personnel.setEmail(upPersonnel.getEmail());
             }
-            if (upPersonnel.getTel() != 0) {
+            if (upPersonnel.getTel() != null) {
                 personnel.setTel(upPersonnel.getTel());
             }
             return personnelRepository.save(personnel);

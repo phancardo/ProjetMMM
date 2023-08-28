@@ -15,6 +15,9 @@ public class Personnel {
     @Column(length = 50, nullable = false)
     private String nomPersonnel;
 
+    @Column(length = 12, nullable = false)
+    private String cin;
+
     @Column(length = 50, nullable = false)
     private String prenomPersonnel;
 
@@ -25,7 +28,7 @@ public class Personnel {
     private String email;
 
     @Column(length = 50, nullable = false)
-    private int tel;
+    private String tel;
 
     private String poste;
 

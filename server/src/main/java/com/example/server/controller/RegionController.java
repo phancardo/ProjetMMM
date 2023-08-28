@@ -1,7 +1,6 @@
 package com.example.server.controller;
 
 import com.example.server.model.Bureau;
-import com.example.server.model.Personnel;
 import com.example.server.model.Region;
 import com.example.server.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173/")
 @RequestMapping("/region")
 public class RegionController {
 
