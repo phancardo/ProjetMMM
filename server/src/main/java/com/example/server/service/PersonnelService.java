@@ -29,15 +29,31 @@ public class PersonnelService {
         Optional<Bureau> isExistBureau = bureauService.getBureauById(id);
         if (isExistBureau.isPresent()) {
             Bureau updateBureau = isExistBureau.get();
-            Personnel addPersonnel = personnelRepository.save(newPersonnel);
-            switch (addPersonnel.getPoste()) {
-                case "coordonateur" -> updateBureau.setCoordonateur(newPersonnel);
-                case "president" -> updateBureau.setPresident(newPersonnel);
-                case "vice president" -> updateBureau.getVicePresident().add(newPersonnel);
-                case "tresorier" -> updateBureau.setTresorier(newPersonnel);
-                case "commissaire au compte" -> updateBureau.setCommissaireAuxCompte(newPersonnel);
+
+            switch (newPersonnel.getPoste()) {
+                case "coordonateur" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.setCoordonateur(addPersonnel);
+                }
+                case "president" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.setPresident(addPersonnel);
+                }
+                case "vice president" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.getVicePresident().add(addPersonnel);
+                }
+                case "tresorier" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.setTresorier(addPersonnel);
+                }
+                case "commissaire au compte" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.setCommissaireAuxCompte(addPersonnel);
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + newPersonnel.getPoste());
             }
-            return addPersonnel;
+            return newPersonnel;
         } else {
             return null;
         }
