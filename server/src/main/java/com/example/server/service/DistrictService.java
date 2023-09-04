@@ -2,6 +2,7 @@ package com.example.server.service;
 
 import com.example.server.model.Bureau;
 import com.example.server.model.District;
+import com.example.server.model.Region;
 import com.example.server.repository.BureauRepository;
 import com.example.server.repository.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class DistrictService {
     @Autowired
     private BureauRepository bureauRepository;
 
+    @Autowired
+    private RegionService regionService;
+
     public Optional<District> getDistrictById(int id) {
         return districtRepository.findById(id);
     }
@@ -26,8 +30,18 @@ public class DistrictService {
         return districtRepository.findAll();
     }
 
-    public District addDistrict(District newDistrict) {
-        return districtRepository.save(newDistrict);
+    public District addDistrict(District newDistrict, int idRegion) {
+        Optional<Region> isExistRegion = regionService.getRegionById(idRegion);
+        if (isExistRegion.isPresent()) {
+            Region region = isExistRegion.get();
+            District savedDistrict = districtRepository.save(newDistrict);
+            region.getDistricts().add(savedDistrict);
+            regionService.updateRegion(region);
+
+            return savedDistrict;
+        } else {
+            return null;
+        }
     }
 
     public District updateDistrict(District upDistrict) {

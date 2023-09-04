@@ -29,8 +29,12 @@ public class RegionController {
     }
 
     @PostMapping("/add")
-    public Region addRegion(@RequestBody Region newRegion) {
-        return regionService.addRegion(newRegion);
+    public Region addRegion(@RequestBody Map<String, String> mapRegion) {
+        int idDistrict = Integer.parseInt(mapRegion.get("idDistrict"));
+        Region newRegion = new Region();
+        newRegion.setNomRegion(mapRegion.get("nomRegion"));
+
+        return regionService.addRegion(newRegion, idDistrict);
     }
 
     @PostMapping("/add_bureau")

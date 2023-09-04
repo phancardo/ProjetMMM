@@ -2,11 +2,13 @@ package com.example.server.service;
 
 import com.example.server.model.Bureau;
 import com.example.server.model.Commune;
+import com.example.server.model.District;
 import com.example.server.repository.BureauRepository;
 import com.example.server.repository.CommuneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +20,8 @@ public class CommuneService {
     @Autowired
     private BureauRepository bureauRepository;
 
+    private DistrictService districtService;
+
     public Optional<Commune> getCommuneById(int id) {
         return communeRepository.findById(id);
     }
@@ -26,8 +30,17 @@ public class CommuneService {
         return communeRepository.findAll();
     }
 
-    public Commune addCommune(Commune newCommune) {
-        return communeRepository.save(newCommune);
+    public Commune addCommune(Commune newCommune, int idDistrict) {
+        Optional<District> isExistDistrict = districtService.getDistrictById(idDistrict);
+        if (isExistDistrict.isPresent()) {
+            District checkedDistrict = isExistDistrict.get();
+            Commune savedCommune = communeRepository.save(newCommune);
+            checkedDistrict.getCommunes().add(savedCommune);
+            districtService.updateDistrict(checkedDistrict);
+            return savedCommune;
+        } else {
+            return null;
+        }
     }
 
     public Commune updateCommune(Commune upCommune) {

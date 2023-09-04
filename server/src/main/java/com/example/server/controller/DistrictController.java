@@ -28,8 +28,12 @@ public class DistrictController {
     }
 
     @PostMapping("/add")
-    public District addDistrict(District newDistrict) {
-        return districtService.addDistrict(newDistrict);
+    public District addDistrict(@RequestBody Map<String, String> mapDistrict) {
+        District newDistrict = new District();
+        newDistrict.setNomDistrict(mapDistrict.get("nomDistrict"));
+        int idRegion = Integer.parseInt(mapDistrict.get("idRegion"));
+
+        return districtService.addDistrict(newDistrict, idRegion);
     }
 
     @PostMapping("/add_bureau")

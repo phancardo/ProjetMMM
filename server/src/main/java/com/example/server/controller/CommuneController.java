@@ -28,8 +28,12 @@ public class CommuneController {
     }
 
     @PostMapping("/add")
-    public Commune addCommune(@RequestBody Commune newCommune) {
-        return communeService.addCommune(newCommune);
+    public Commune addCommune(@RequestBody Map<String, String> mapCommune) {
+        Commune newCommune = new Commune();
+        newCommune.setNomCommune(mapCommune.get("nomCommune"));
+
+        int idDistrict = Integer.parseInt(mapCommune.get("idDistrict"));
+        return communeService.addCommune(newCommune, idDistrict);
     }
 
     @PutMapping("/update")

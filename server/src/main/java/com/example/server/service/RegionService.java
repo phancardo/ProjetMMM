@@ -2,6 +2,7 @@ package com.example.server.service;
 
 import com.example.server.model.Bureau;
 import com.example.server.model.Personnel;
+import com.example.server.model.Province;
 import com.example.server.model.Region;
 import com.example.server.repository.BureauRepository;
 import com.example.server.repository.PersonnelRepository;
@@ -24,6 +25,9 @@ public class RegionService {
     @Autowired
     private PersonnelRepository personnelRepository;
 
+    @Autowired
+    private ProvinceService provinceService;
+
     public Optional<Region> getRegionById(int id) {
         return regionRepository.findById(id);
     }
@@ -32,8 +36,18 @@ public class RegionService {
         return regionRepository.findAll();
     }
 
-    public Region addRegion(Region newRegion) {
-        return regionRepository.save(newRegion);
+    public Region addRegion(Region newRegion, int idProvince) {
+        Optional<Province> isExistProvince = provinceService.getProvinceById(idProvince);
+        if (isExistProvince.isPresent()) {
+            Province province = isExistProvince.get();
+            Region savedRegion = regionRepository.save(newRegion);
+            province.getRegionList().add(savedRegion);
+            provinceService.updateProvince(province);
+
+            return savedRegion;
+        } else {
+            return null;
+        }
     }
 
     public Region updateRegion(Region  upRegion) {

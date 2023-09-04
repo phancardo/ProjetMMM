@@ -34,6 +34,22 @@ public class ProvinceService {
         return provinceRepository.saveAll(provinceList);
     }
 
+    public Province updateProvince(Province upProvince) {
+        Optional<Province> isExistProvince = this.getProvinceById(upProvince.getId());
+        if (isExistProvince.isPresent()) {
+            Province oldProvince = isExistProvince.get();
+            if (upProvince.getNomProvince() != null) {
+                oldProvince.setNomProvince(upProvince.getNomProvince());
+            }
+            if (!upProvince.getRegionList().isEmpty()) {
+                oldProvince.getRegionList().addAll(upProvince.getRegionList());
+            }
+            return provinceRepository.save(oldProvince);
+        } else {
+            return null;
+        }
+    }
+
     public Optional<Province> getProvinceByNom(String nom) {
         return provinceRepository.findByNomProvince(nom);
     }

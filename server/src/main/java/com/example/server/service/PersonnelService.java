@@ -34,22 +34,47 @@ public class PersonnelService {
                 case "coordonateur" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.setCoordonateur(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
                 }
                 case "president" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.setPresident(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
+                }
+                case "responsable de communication" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.setResponsableCommunication(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
                 }
                 case "vice president" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.getVicePresident().add(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
+                }
+                case "secretaire general" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.setSecretaireGeneral(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
                 }
                 case "tresorier" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.setTresorier(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
                 }
                 case "commissaire au compte" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.setCommissaireAuxCompte(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
+                }
+                case "secretaire" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.setSecretaire(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
+                }
+                case "conseillers" -> {
+                    Personnel addPersonnel = personnelRepository.save(newPersonnel);
+                    updateBureau.getConseillers().add(addPersonnel);
+                    bureauService.updateBureau(updateBureau);
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + newPersonnel.getPoste());
             }
