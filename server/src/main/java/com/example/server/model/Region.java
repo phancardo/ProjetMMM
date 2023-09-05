@@ -17,7 +17,7 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "nom_region", length = 50, nullable = false)
+    @Column(name = "nom_region", length = 50, nullable = false, unique = true)
     private String nomRegion;
 
     @OneToOne(fetch = FetchType.EAGER)

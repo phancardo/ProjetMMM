@@ -15,7 +15,7 @@ public class Fokontany {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "nom_fokontany", length = 50)
+    @Column(name = "nom_fokontany", length = 50, nullable = false, unique = true)
     private String nomFokontany;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

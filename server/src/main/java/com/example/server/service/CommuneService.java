@@ -20,6 +20,7 @@ public class CommuneService {
     @Autowired
     private BureauRepository bureauRepository;
 
+    @Autowired
     private DistrictService districtService;
 
     public Optional<Commune> getCommuneById(int id) {

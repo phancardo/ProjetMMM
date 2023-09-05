@@ -54,6 +54,9 @@ public class DistrictService {
             if (upDistrict.getBureau() != null) {
                 oldDistrict.setBureau(upDistrict.getBureau());
             }
+            if (!upDistrict.getCommunes().isEmpty()) {
+                oldDistrict.getCommunes().addAll(upDistrict.getCommunes());
+            }
             return districtRepository.save(oldDistrict);
         } else {
             return null;

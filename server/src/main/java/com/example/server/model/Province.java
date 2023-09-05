@@ -17,7 +17,7 @@ public class Province {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "nom_province", length = 50, nullable = false)
+    @Column(name = "nom_province", length = 50, nullable = false, unique = true)
     private String nomProvince;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
