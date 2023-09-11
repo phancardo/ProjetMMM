@@ -82,7 +82,9 @@ public class ServerApplication implements CommandLineRunner {
                 if (isExistDistrict.isEmpty()) {
                     District district = new District();
                     district.setNomDistrict(donneesCSV.getDistrict());
-                    districtService.addDistrict(district, savedRegion.getId());
+                    District savedDistrict = districtRepository.save(district);
+                    savedRegion.getDistricts().add(savedDistrict);
+                    regionRepository.save(savedRegion);
                 }
             } else {
                 Region getRegion = isExistRegion.get();
@@ -90,13 +92,17 @@ public class ServerApplication implements CommandLineRunner {
                 if (isExistDistrict.isEmpty()) {
                     District district = new District();
                     district.setNomDistrict(donneesCSV.getDistrict());
-                    District savedDistrict = districtService.addDistrict(district, getRegion.getId());
+                    District savedDistrict = districtRepository.save(district);
+                    getRegion.getDistricts().add(savedDistrict);
+                    regionRepository.save(getRegion);
 
                     Optional<Commune> isExistCommune = communeRepository.findByNomCommune(donneesCSV.getCommune());
                     if (isExistCommune.isEmpty()) {
                         Commune commune = new Commune();
                         commune.setNomCommune(donneesCSV.getCommune());
-                        communeService. addCommune(commune, savedDistrict.getId());
+                        Commune savedCommune = communeRepository.save(commune);
+                        savedDistrict.getCommunes().add(savedCommune);
+                        districtRepository.save(savedDistrict);
                     }
                 } else {
                     District getDistrict = isExistDistrict.get();
@@ -104,7 +110,9 @@ public class ServerApplication implements CommandLineRunner {
                     if (isExistCommune.isEmpty()) {
                         Commune commune = new Commune();
                         commune.setNomCommune(donneesCSV.getCommune());
-                        communeService.addCommune(commune, getDistrict.getId());
+                        Commune savedCommune = communeRepository.save(commune);
+                        getDistrict.getCommunes().add(savedCommune);
+                        districtRepository.save(getDistrict);
                     }
                 }
             }

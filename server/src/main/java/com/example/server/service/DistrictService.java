@@ -1,6 +1,7 @@
 package com.example.server.service;
 
 import com.example.server.model.Bureau;
+import com.example.server.model.Commune;
 import com.example.server.model.District;
 import com.example.server.model.Region;
 import com.example.server.repository.BureauRepository;
@@ -8,6 +9,7 @@ import com.example.server.repository.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -53,9 +55,6 @@ public class DistrictService {
             }
             if (upDistrict.getBureau() != null) {
                 oldDistrict.setBureau(upDistrict.getBureau());
-            }
-            if (!upDistrict.getCommunes().isEmpty()) {
-                oldDistrict.getCommunes().addAll(upDistrict.getCommunes());
             }
             return districtRepository.save(oldDistrict);
         } else {

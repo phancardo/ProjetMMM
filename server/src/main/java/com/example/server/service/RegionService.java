@@ -1,15 +1,13 @@
 package com.example.server.service;
 
-import com.example.server.model.Bureau;
-import com.example.server.model.Personnel;
-import com.example.server.model.Province;
-import com.example.server.model.Region;
+import com.example.server.model.*;
 import com.example.server.repository.BureauRepository;
 import com.example.server.repository.PersonnelRepository;
 import com.example.server.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +61,7 @@ public class RegionService {
             if (upRegion.getCoach() != null) {
                 oldRegion.setCoach(upRegion.getCoach());
             }
-            return regionRepository.save(upRegion);
+            return regionRepository.save(oldRegion);
         } else {
             return null;
         }

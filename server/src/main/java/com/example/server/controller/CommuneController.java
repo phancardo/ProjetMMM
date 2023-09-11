@@ -2,10 +2,12 @@ package com.example.server.controller;
 
 import com.example.server.model.Bureau;
 import com.example.server.model.Commune;
+import com.example.server.repository.CommuneRepository;
 import com.example.server.service.CommuneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,6 +18,9 @@ public class CommuneController {
 
     @Autowired
     private CommuneService communeService;
+
+    @Autowired
+    private CommuneRepository communeRepository;
 
     @GetMapping("/{id}")
     public Optional<Commune> getCommuneById(int id) {
@@ -48,5 +53,10 @@ public class CommuneController {
         int idCommune = Integer.parseInt(mapBureau.get("idCommune"));
         Commune updatedCommune = communeService.addBureauCommune(newBureau, idCommune);
         return updatedCommune;
+    }
+
+    @GetMapping("/search")
+    public List<Commune> searchByKey(@PathVariable String key) {
+        return communeRepository.findByNomCommuneContaining(key);
     }
 }
