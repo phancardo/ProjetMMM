@@ -41,17 +41,17 @@ public class PersonnelService {
                     updateBureau.setPresident(addPersonnel);
                     bureauService.updateBureau(updateBureau);
                 }
-                case "responsable de communication" -> {
+                case "responsableCommunication" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.setResponsableCommunication(addPersonnel);
                     bureauService.updateBureau(updateBureau);
                 }
-                case "vice president" -> {
+                case "vicePresident" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.getVicePresident().add(addPersonnel);
                     bureauService.updateBureau(updateBureau);
                 }
-                case "secretaire general" -> {
+                case "secretaireGeneral" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.setSecretaireGeneral(addPersonnel);
                     bureauService.updateBureau(updateBureau);
@@ -61,7 +61,7 @@ public class PersonnelService {
                     updateBureau.setTresorier(addPersonnel);
                     bureauService.updateBureau(updateBureau);
                 }
-                case "commissaire au compte" -> {
+                case "CommissaireAauxComptes" -> {
                     Personnel addPersonnel = personnelRepository.save(newPersonnel);
                     updateBureau.setCommissaireAuxCompte(addPersonnel);
                     bureauService.updateBureau(updateBureau);

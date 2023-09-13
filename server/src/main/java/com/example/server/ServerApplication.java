@@ -50,73 +50,73 @@ public class ServerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<String> provinces = new ArrayList<>();
-        provinces.add("Antananarivo");
-        provinces.add("Antalaha");
-        provinces.add("Mahajanga");
-        provinces.add("Toamasina");
-        provinces.add("Fianaratsoa");
-        provinces.add("Toliara");
-
-        List<Province> provinceList = new ArrayList<>();
-        for (Province province : provinceList) {
-            for (String nomProvince : provinces) {
-                province.setNomProvince(nomProvince);
-                provinceService.addProvince(province);
-            }
-        }
-
-        Resource resource = new ClassPathResource("RDC.csv");
-        File file = resource.getFile();
-        List<DonneesCSV> donneesCSVList = csvService.lireFichierCSV(file);
-        for (DonneesCSV donneesCSV : donneesCSVList) {
-            Optional<Region> isExistRegion = regionRepository.findByNomRegion(donneesCSV.getRegion());
-            if (isExistRegion.isEmpty()) {
-//              Ajout de nouvel region
-                Region region = new Region();
-                region.setNomRegion(donneesCSV.getRegion());
-                Region savedRegion = regionRepository.save(region);
-
-//              Ajout de nouvel district avec l'id du nouvel region
-                Optional<District> isExistDistrict = districtRepository.findByNomDistrict(donneesCSV.getDistrict());
-                if (isExistDistrict.isEmpty()) {
-                    District district = new District();
-                    district.setNomDistrict(donneesCSV.getDistrict());
-                    District savedDistrict = districtRepository.save(district);
-                    savedRegion.getDistricts().add(savedDistrict);
-                    regionRepository.save(savedRegion);
-                }
-            } else {
-                Region getRegion = isExistRegion.get();
-                Optional<District> isExistDistrict = districtRepository.findByNomDistrict(donneesCSV.getDistrict());
-                if (isExistDistrict.isEmpty()) {
-                    District district = new District();
-                    district.setNomDistrict(donneesCSV.getDistrict());
-                    District savedDistrict = districtRepository.save(district);
-                    getRegion.getDistricts().add(savedDistrict);
-                    regionRepository.save(getRegion);
-
-                    Optional<Commune> isExistCommune = communeRepository.findByNomCommune(donneesCSV.getCommune());
-                    if (isExistCommune.isEmpty()) {
-                        Commune commune = new Commune();
-                        commune.setNomCommune(donneesCSV.getCommune());
-                        Commune savedCommune = communeRepository.save(commune);
-                        savedDistrict.getCommunes().add(savedCommune);
-                        districtRepository.save(savedDistrict);
-                    }
-                } else {
-                    District getDistrict = isExistDistrict.get();
-                    Optional<Commune> isExistCommune = communeRepository.findByNomCommune(donneesCSV.getCommune());
-                    if (isExistCommune.isEmpty()) {
-                        Commune commune = new Commune();
-                        commune.setNomCommune(donneesCSV.getCommune());
-                        Commune savedCommune = communeRepository.save(commune);
-                        getDistrict.getCommunes().add(savedCommune);
-                        districtRepository.save(getDistrict);
-                    }
-                }
-            }
-        }
+//        List<String> provinces = new ArrayList<>();
+//        provinces.add("Antananarivo");
+//        provinces.add("Antalaha");
+//        provinces.add("Mahajanga");
+//        provinces.add("Toamasina");
+//        provinces.add("Fianaratsoa");
+//        provinces.add("Toliara");
+//
+//        List<Province> provinceList = new ArrayList<>();
+//        for (Province province : provinceList) {
+//            for (String nomProvince : provinces) {
+//                province.setNomProvince(nomProvince);
+//                provinceService.addProvince(province);
+//            }
+//        }
+//
+//        Resource resource = new ClassPathResource("RDC.csv");
+//        File file = resource.getFile();
+//        List<DonneesCSV> donneesCSVList = csvService.lireFichierCSV(file);
+//        for (DonneesCSV donneesCSV : donneesCSVList) {
+//            Optional<Region> isExistRegion = regionRepository.findByNomRegion(donneesCSV.getRegion());
+//            if (isExistRegion.isEmpty()) {
+////              Ajout de nouvel region
+//                Region region = new Region();
+//                region.setNomRegion(donneesCSV.getRegion());
+//                Region savedRegion = regionRepository.save(region);
+//
+////              Ajout de nouvel district avec l'id du nouvel region
+//                Optional<District> isExistDistrict = districtRepository.findByNomDistrict(donneesCSV.getDistrict());
+//                if (isExistDistrict.isEmpty()) {
+//                    District district = new District();
+//                    district.setNomDistrict(donneesCSV.getDistrict());
+//                    District savedDistrict = districtRepository.save(district);
+//                    savedRegion.getDistricts().add(savedDistrict);
+//                    regionRepository.save(savedRegion);
+//                }
+//            } else {
+//                Region getRegion = isExistRegion.get();
+//                Optional<District> isExistDistrict = districtRepository.findByNomDistrict(donneesCSV.getDistrict());
+//                if (isExistDistrict.isEmpty()) {
+//                    District district = new District();
+//                    district.setNomDistrict(donneesCSV.getDistrict());
+//                    District savedDistrict = districtRepository.save(district);
+//                    getRegion.getDistricts().add(savedDistrict);
+//                    regionRepository.save(getRegion);
+//
+//                    Optional<Commune> isExistCommune = communeRepository.findByNomCommune(donneesCSV.getCommune());
+//                    if (isExistCommune.isEmpty()) {
+//                        Commune commune = new Commune();
+//                        commune.setNomCommune(donneesCSV.getCommune());
+//                        Commune savedCommune = communeRepository.save(commune);
+//                        savedDistrict.getCommunes().add(savedCommune);
+//                        districtRepository.save(savedDistrict);
+//                    }
+//                } else {
+//                    District getDistrict = isExistDistrict.get();
+//                    Optional<Commune> isExistCommune = communeRepository.findByNomCommune(donneesCSV.getCommune());
+//                    if (isExistCommune.isEmpty()) {
+//                        Commune commune = new Commune();
+//                        commune.setNomCommune(donneesCSV.getCommune());
+//                        Commune savedCommune = communeRepository.save(commune);
+//                        getDistrict.getCommunes().add(savedCommune);
+//                        districtRepository.save(getDistrict);
+//                    }
+//                }
+//            }
+//        }
 
     }
 }
