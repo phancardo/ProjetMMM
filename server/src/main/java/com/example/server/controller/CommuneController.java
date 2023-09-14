@@ -57,6 +57,6 @@ public class CommuneController {
 
     @GetMapping("/search")
     public List<Commune> searchByKey(@PathVariable String key) {
-        return communeRepository.findByNomCommuneContaining(key);
+        return communeRepository.findByNomCommuneStartingWith(key);
     }
 }
