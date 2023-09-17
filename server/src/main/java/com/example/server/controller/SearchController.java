@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173/")
 @RestController
 @RequestMapping("/search")
 public class SearchController {
