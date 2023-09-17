@@ -1,112 +1,73 @@
 package com.example.server.controller;
 
-import com.example.server.model.Commune;
-import com.example.server.model.District;
-import com.example.server.model.Fokontany;
-import com.example.server.model.Region;
+import com.example.server.controller.mapper.CommuneMapper;
+import com.example.server.controller.mapper.DistrictMapper;
+import com.example.server.controller.mapper.FokontanyMapper;
+import com.example.server.controller.mapper.RegionMapper;
+import com.example.server.controller.response.CommuneResponse;
+import com.example.server.controller.response.DistrictResponse;
+import com.example.server.controller.response.FokontanyResponse;
+import com.example.server.controller.response.RegionResponse;
 import com.example.server.service.SearchSercvice;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/search")
 public class SearchController {
 
-    @Autowired
-    private SearchSercvice searchSercvice;
+    private final SearchSercvice searchSercvice;
+    private final RegionMapper regionMapper;
+    private final DistrictMapper districtMapper;
+    private final CommuneMapper communeMapper;
+    private final FokontanyMapper fokontanyMapper;
 
     @PostMapping("/region")
-    public ResponseEntity<List<Map<String, Object>>> findByNomRegionContaining(@RequestBody Map<String, String> mapRegion) {
-        List<Map<String, Object>> resonse = new ArrayList<>();
-        List<Region> regionList = searchSercvice.searchByNomContaining(mapRegion.get("nomRegion"));
-
-        for (Region region : regionList) {
-            Map<String, Object> mapResponse = mapResponse(region.getId(), "nomRegion", region.getNomRegion());
-            resonse.add(mapResponse);
-        }
-        return ResponseEntity.ok(resonse);
+    public ResponseEntity<List<RegionResponse>> findByNomRegionContaining(@RequestBody Map<String, String> mapRegion) {
+        return ResponseEntity.
+                ok(searchSercvice.searchByNomContaining(mapRegion.get("nomRegion"))
+                        .stream().map(regionMapper::toRest).toList());
     }
 
     @PostMapping("/district")
-    public ResponseEntity<List<Map<String, Object>>> findDistrict(@RequestBody Map<String, String> mapRegion) {
-        List<Map<String, Object>> response = new ArrayList<>();
+    public ResponseEntity<List<DistrictResponse>> findDistrict(@RequestBody Map<String, String> mapRegion) {
         if (mapRegion.get("idRegion" ) != null) {
-            List<District> districtList = searchSercvice.searchByNomDistrictContaining(Integer.parseInt(mapRegion.get("idRegion")), mapRegion.get("nomDistrict"));
-
-            for (District district : districtList) {
-                Map<String, Object> mapResponse = mapResponse(district.getId(), "nomDistrict", district.getNomDistrict());
-                response.add(mapResponse);
-            }
-            return ResponseEntity.ok(response);
+            return ResponseEntity.
+                    ok(searchSercvice
+                            .searchByNomDistrictContaining(Integer.parseInt(mapRegion.get("idRegion")), mapRegion.get("nomDistrict"))
+                            .stream().map(districtMapper::toRest).toList());
         } else {
-            List<District> districtList = searchSercvice.searchDistrictByNomStartingWith(mapRegion.get("nomDistrict"));
-
-            for (District district : districtList) {
-                Map<String, Object> mapResponse = mapResponse(district.getId(), "nomDistrict", district.getNomDistrict());
-                response.add(mapResponse);
-            }
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(searchSercvice.searchDistrictByNomStartingWith(mapRegion.get("nomDistrict"))
+                    .stream().map(districtMapper::toRest).toList());
         }
     }
 
     @PostMapping("/commune")
-    public ResponseEntity<List<Map<String, Object>>> findCommune(@RequestBody Map<String, String> mapCommune) {
-        List<Map<String, Object>> response = new ArrayList<>();
-        if (mapCommune.get("idRegion" ) != null) {
-            List<Commune> communeList = searchSercvice.searchCommuneByIdDistrictAndNomCommune(Integer.parseInt(mapCommune.get("idDistrict")), mapCommune.get("nomCommune"));
-
-            for (Commune commune : communeList) {
-                Map<String, Object> mapResponse = mapResponse(commune.getId(), "nomCommune", commune.getNomCommune());
-                response.add(mapResponse);
-            }
-            return ResponseEntity.ok(response);
+    public ResponseEntity<List<CommuneResponse>> findCommune(@RequestBody Map<String, String> mapCommune) {
+        if (mapCommune.get("idDistrict" ) != null) {
+            return ResponseEntity.ok(searchSercvice.searchCommuneByIdDistrictAndNomCommune(Integer.parseInt(mapCommune.get("idDistrict")), mapCommune.get("nomCommune"))
+                    .stream().map(communeMapper::toRest).toList());
         } else {
-            List<Commune> communes = searchSercvice.searchCommuneByNomStartingWith(mapCommune.get("nomCommune"));
-
-            for (Commune commune : communes) {
-                Map<String, Object> mapResponse = mapResponse(commune.getId(), "nomCommune", commune.getNomCommune());
-                response.add(mapResponse);
-            }
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(searchSercvice.searchCommuneByNomStartingWith(mapCommune.get("nomCommune"))
+                    .stream().map(communeMapper::toRest).toList());
         }
     }
 
     @PostMapping("/fokontany")
-    public ResponseEntity<List<Map<String, Object>>> findFokontany(@RequestBody Map<String, String> mapFokontany) {
+    public ResponseEntity<List<FokontanyResponse>> findFokontany(@RequestBody Map<String, String> mapFokontany) {
         List<Map<String, Object>> response = new ArrayList<>();
         if (mapFokontany.get("idCommune" ) != null) {
-            List<Fokontany> fokontanies = searchSercvice.searchFokontanyByIdCommuneAndNomFokontany(Integer.parseInt(mapFokontany.get("idCommune")), mapFokontany.get("nomFokontany"));
-
-            for (Fokontany fokontany : fokontanies) {
-                Map<String, Object> mapResponse = mapResponse(fokontany.getId(), "nomCommune", fokontany.getNomFokontany());
-                response.add(mapResponse);
-            }
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(searchSercvice.searchFokontanyByIdCommuneAndNomFokontany(Integer.parseInt(mapFokontany.get("idCommune")), mapFokontany.get("nomFokontany"))
+                    .stream().map(fokontanyMapper::toRest).toList());
         } else {
-            List<Fokontany> fokontanyList = searchSercvice.searchFokontanyByNomStartingWith(mapFokontany.get("nomFokontany"));
-
-            for (Fokontany fokontany : fokontanyList) {
-                Map<String, Object> mapResponse = mapResponse(fokontany.getId(), "nomFokontany", fokontany.getNomFokontany());
-                response.add(mapResponse);
-            }
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(searchSercvice.searchFokontanyByNomStartingWith(mapFokontany.get("nomFokontany"))
+                    .stream().map(fokontanyMapper::toRest).toList());
         }
-    }
-
-    private Map<String, Object> mapResponse(int id, String nomKey, String nomValue) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", id);
-        response.put(nomKey, nomValue);
-
-        return response;
     }
 }
