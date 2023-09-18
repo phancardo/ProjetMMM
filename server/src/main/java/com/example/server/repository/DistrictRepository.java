@@ -17,5 +17,8 @@ public interface DistrictRepository extends JpaRepository<District, Integer> {
     List<District> findByNomDistrictStartingWith(String keyword);
 
     @Query(value = "SELECT * FROM District where id_region = :idRegion and nom_district like :nomDistrict%", nativeQuery = true)
-    List<District> getDistrictByIdRegion(@Param("idRegion") Integer idRegion, @Param("nomDistrict") String nomDistrict);
+    List<District> getDistrictByIdRegionAndNomDistrict(@Param("idRegion") Integer idRegion, @Param("nomDistrict") String nomDistrict);
+
+    @Query(value = "SELECT * FROM District where id_region = :idRegion", nativeQuery = true)
+    List<District> getDistrictByIdRegion(@Param("idRegion") Integer idRegion);
 }

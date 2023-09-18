@@ -33,11 +33,15 @@ public class SearchSercvice {
     }
 
     public List<District> searchByNomDistrictContaining(int idRegion, String nomDistrict) {
-        return districtRepository.getDistrictByIdRegion(idRegion, nomDistrict);
+        return districtRepository.getDistrictByIdRegionAndNomDistrict(idRegion, nomDistrict);
     }
 
     public List<District> searchDistrictByNomStartingWith(String nomDistrict) {
         return districtRepository.findByNomDistrictStartingWith(nomDistrict);
+    }
+
+    public List<District> searchDistrictByIdRegion(int idRegion) {
+        return districtRepository.getDistrictByIdRegion(idRegion);
     }
 
     public List<Commune> searchCommuneByNomStartingWith(String nomCommune) {
@@ -48,10 +52,18 @@ public class SearchSercvice {
         return communeRepository.getCommunesByIdDistrictAndNomCommune(idDistrict, nomCommune);
     }
 
+    public List<Commune> searchCommuneByIdRegion(int idDistrict) {
+        return communeRepository.getCommunesByIdDistrict(idDistrict);
+    }
+
     public List<Fokontany> searchFokontanyByNomStartingWith(String nom) {
         return fokontanyRepository.findByNomFokontanyStartingWith(nom);
     }
     public List<Fokontany> searchFokontanyByIdCommuneAndNomFokontany(int idCommune, String nomFokontany) {
         return fokontanyRepository.getFokontanyByIdCommuneAndNomFokontany(idCommune,nomFokontany);
+    }
+
+    public List<Fokontany> searchFokontanyByIdCommune(int idCommune) {
+        return fokontanyRepository.getFokontanyByIdCommune(idCommune);
     }
 }

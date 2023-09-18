@@ -37,21 +37,31 @@ public class SearchController {
     }
 
     @PostMapping("/district")
-    public ResponseEntity<List<DistrictResponse>> findDistrict(@RequestBody Map<String, String> mapRegion) {
-        if (mapRegion.get("idRegion" ) != null) {
+    public ResponseEntity<List<DistrictResponse>> findDistrict(@RequestBody Map<String, String> mapDistrict) {
+        if (mapDistrict.get("idRegion") != null && mapDistrict.get("nomDistrict") == null) {
             return ResponseEntity.
                     ok(searchSercvice
-                            .searchByNomDistrictContaining(Integer.parseInt(mapRegion.get("idRegion")), mapRegion.get("nomDistrict"))
+                            .searchDistrictByIdRegion(Integer.parseInt(mapDistrict.get("idRegion")))
+                            .stream().map(districtMapper::toRest).toList());
+        }
+        else if (mapDistrict.get("idRegion" ) != null && mapDistrict.get("nomDistrict") != null) {
+            return ResponseEntity.
+                    ok(searchSercvice
+                            .searchByNomDistrictContaining(Integer.parseInt(mapDistrict.get("idRegion")), mapDistrict.get("nomDistrict"))
                             .stream().map(districtMapper::toRest).toList());
         } else {
-            return ResponseEntity.ok(searchSercvice.searchDistrictByNomStartingWith(mapRegion.get("nomDistrict"))
+            return ResponseEntity.ok(searchSercvice.searchDistrictByNomStartingWith(mapDistrict.get("nomDistrict"))
                     .stream().map(districtMapper::toRest).toList());
         }
     }
 
     @PostMapping("/commune")
     public ResponseEntity<List<CommuneResponse>> findCommune(@RequestBody Map<String, String> mapCommune) {
-        if (mapCommune.get("idDistrict" ) != null) {
+        if (mapCommune.get("idDistrict") != null && mapCommune.get("nomCommune") == null) {
+            return ResponseEntity.ok(searchSercvice.searchCommuneByIdRegion(Integer.parseInt(mapCommune.get("idDistrict")))
+                    .stream().map(communeMapper::toRest).toList());
+        }
+        else if (mapCommune.get("idDistrict" ) != null && mapCommune.get("nomCommune") != null) {
             return ResponseEntity.ok(searchSercvice.searchCommuneByIdDistrictAndNomCommune(Integer.parseInt(mapCommune.get("idDistrict")), mapCommune.get("nomCommune"))
                     .stream().map(communeMapper::toRest).toList());
         } else {
@@ -62,7 +72,11 @@ public class SearchController {
 
     @PostMapping("/fokontany")
     public ResponseEntity<List<FokontanyResponse>> findFokontany(@RequestBody Map<String, String> mapFokontany) {
-        if (mapFokontany.get("idCommune" ) != null) {
+        if (mapFokontany.get("idCommune" ) != null && mapFokontany.get("nomFokontany") == null) {
+            return ResponseEntity.ok(searchSercvice.searchFokontanyByIdCommune(Integer.parseInt(mapFokontany.get("idCommune")))
+                    .stream().map(fokontanyMapper::toRest).toList());
+        }
+        else if (mapFokontany.get("idCommune" ) != null && mapFokontany.get("nomFokontany") != null) {
             return ResponseEntity.ok(searchSercvice.searchFokontanyByIdCommuneAndNomFokontany(Integer.parseInt(mapFokontany.get("idCommune")), mapFokontany.get("nomFokontany"))
                     .stream().map(fokontanyMapper::toRest).toList());
         } else {

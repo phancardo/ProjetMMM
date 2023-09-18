@@ -14,4 +14,7 @@ public interface FokontanyRepository extends JpaRepository<Fokontany, Integer> {
 
     @Query(value = "SELECT * FROM Fokontany where id_commune = :idCommune and nom_fokontany like :nomFokontany%", nativeQuery = true)
     List<Fokontany> getFokontanyByIdCommuneAndNomFokontany(@Param("idCommune") int idCommune, @Param("nomFokontany") String nomFokontany);
+
+    @Query(value = "SELECT * FROM Fokontany where id_commune = :idCommune", nativeQuery = true)
+    List<Fokontany> getFokontanyByIdCommune(@Param("idCommune") int idCommune);
 }

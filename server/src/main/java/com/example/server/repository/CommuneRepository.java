@@ -7,16 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CommuneRepository extends JpaRepository<Commune, Integer> {
-
-    Optional<Commune> findByNomCommune(String nomCommune);
-
     List<Commune> findByNomCommuneStartingWith(String key);
 
     @Query(value = "SELECT * FROM Commune where id_district = :idDistrict and nom_commune like :nomCommune%", nativeQuery = true)
     List<Commune> getCommunesByIdDistrictAndNomCommune(@Param("idDistrict") int idDistrict, @Param("nomCommune") String nomCommune);
 
+    @Query(value = "SELECT * FROM Commune where id_district = :idDistrict", nativeQuery = true)
+    List<Commune> getCommunesByIdDistrict(@Param("idDistrict") Integer idDistrict);
 }
