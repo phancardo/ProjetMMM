@@ -62,7 +62,6 @@ public class SearchController {
 
     @PostMapping("/fokontany")
     public ResponseEntity<List<FokontanyResponse>> findFokontany(@RequestBody Map<String, String> mapFokontany) {
-        List<Map<String, Object>> response = new ArrayList<>();
         if (mapFokontany.get("idCommune" ) != null) {
             return ResponseEntity.ok(searchSercvice.searchFokontanyByIdCommuneAndNomFokontany(Integer.parseInt(mapFokontany.get("idCommune")), mapFokontany.get("nomFokontany"))
                     .stream().map(fokontanyMapper::toRest).toList());
@@ -71,4 +70,6 @@ public class SearchController {
                     .stream().map(fokontanyMapper::toRest).toList());
         }
     }
+
+
 }
