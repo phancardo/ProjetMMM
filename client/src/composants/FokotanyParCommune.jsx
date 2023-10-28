@@ -1,28 +1,27 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../css/district_region.css'
 import Footer from './Footer'
 import Header from './Header'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Api from './Api';
-function Commune() {
+function FokotanyParCommune() {
     const view = useNavigate();
-    const [district,SetDistrict] = useState([]);
+    const [commune,SetCommune] = useState([]);
     useEffect(() => {
         getRegionById();
         
     }, []);
-    const{id_district}  = useParams();
+    const{id_commune}  = useParams();
     //console.log(id_region);
     const getRegionById = () => {
         Api
-        .get("/district/"+id_district, {
+        .get("/commune/"+id_commune, {
         headers: {
             "Content-Type": "application/json"
         },
         })
             .then((res) => {
-                SetDistrict(res.data);
+                SetCommune(res.data);
                 
         });
     }
@@ -41,14 +40,14 @@ function Commune() {
     <Header></Header>
     <div className='row ' style={{padding:10}}>
         <div className='col-md-6 ' style={{marginLeft:20}}>
-            <h2>  District : {district.nomDistrict} </h2>
+            <h2>  commune : {commune.nomcommune} </h2>
             
             {
-                district.coordonateur !== undefined ? (
+                commune.coordonateur !== undefined ? (
                     <>
-                        {console.log(district.coordonateur)}
-                        <h5 >Nom coordonnateur : {district.coordonateur.nomPersonnel}-{district.coordonateur.prenomPersonnel}</h5>
-                         <h5 >Numero coordonnateur: {district.coordonateur.tel}</h5> 
+                        {console.log(commune.coordonateur)}
+                        <h5 >Nom coordonnateur : {commune.coordonateur.nomPersonnel}-{commune.coordonateur.prenomPersonnel}</h5>
+                         <h5 >Numero coordonnateur: {commune.coordonateur.tel}</h5> 
                     </>
                     
                 ) : (
@@ -58,7 +57,7 @@ function Commune() {
 
             
             <div className='card navgauche'>
-                <h5 className='card-title' style={{textAlign:'center',padding:20}}>MEMBRE DU BUREAU District AMBOHIDRATRIMO </h5>
+                <h5 className='card-title' style={{textAlign:'center',padding:20}}>MEMBRE DU BUREAU commune ANTEHIROKA </h5>
                 <h5  >Président: Rakoto Patrick <h6 style={{float:'right'}}> 0340512356</h6></h5>
                 <h5  >Vice Président: RABE louise <h6 style={{float:'right'}}> 0340512356</h6></h5>
                 <h5  >Secrétaire géneral:RANDRIA charline <h6 style={{float:'right'}}> 0340512356</h6></h5>   
@@ -66,14 +65,14 @@ function Commune() {
         </div>
         
         <div className='row col-md-5  mx-auto'>
-            {district != undefined ? (
+            {commune != undefined ? (
             <>
-                <h2>Liste des communes du district : <strong>{district.nomDistrict}</strong></h2>
+                <h2>Liste des communes du commune : <strong>{commune.nomCommune}</strong></h2>
                 
                     
-                        {district.communes != undefined ? (
+                        {commune.fokotany != undefined ? (
                             
-                                district.communes.map((liste) =>( 
+                                commune.fokotany.map((liste) =>( 
                                     <div key={liste.id} className="card col-md-4 " style={{width:227,height:'auto', marginLeft:10,marginTop:10
                                         }}>
                                             
@@ -92,7 +91,7 @@ function Commune() {
                                 ))
                             
                             ): (
-                            <p> pas de commune</p>  
+                            <p> pas de fokotany</p>  
                             )}
                 
                             
@@ -114,5 +113,5 @@ function Commune() {
   )
 }
 
-export default Commune
+export default FokotanyParCommune
 

@@ -20,6 +20,9 @@ function Header() {
   const ListeFokotany = async (e) => {
     view('/ListeFokotany');
   }
+  const Saisie = async (e) => {
+    view('/AjoutBureauRegion');
+  }
   
   return (
     <>
@@ -33,7 +36,7 @@ function Header() {
             }} href="#">Malagasy Miara Miainga</a>
                       
           </div>
-          <div className='col-md-4' style={{
+          <div className='col-md-5' style={{
             marginTop:15
           }}>
           <div className='row'>
@@ -41,7 +44,9 @@ function Header() {
               <li><a href='' onClick={(e) => ListeRegion(e)}>Region</a></li>
               <li><a href='' onClick={(e) => ListeDistrict(e)}>District</a></li>
               <li><a href='' onClick={(e) => ListeCommune(e)}>Commune</a></li>
-              <li><a href='' onClick={(e) => ListeFokotany(e)}>Fokotany</a></li>
+              <li><a href='' onClick={(e) => ListeFokotany(e)}>Fokontany</a></li>
+              <li><a href='' onClick={(e) => Saisie(e)}>Saisie</a></li>
+
             </ul>
             
           </div>

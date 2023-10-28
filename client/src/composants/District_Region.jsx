@@ -8,6 +8,14 @@ import Api from './Api';
 function District_Region() {
     const view = useNavigate();
     const [region,SetRegion] = useState([]);
+
+    
+   
+
+   
+
+    
+
     useEffect(() => {
         getRegionById();
         
@@ -26,58 +34,102 @@ function District_Region() {
                 
         });
     }
-    
-    
 
    
+
     
-    
-  const ListeBureau = async (e) => {
-    view('/ListeBureau');
-  }
+
+
+
+   ///////////////////////////////////////////////:::
+
+   
+
+   
   
   return (
     <>
     <Header></Header>
     <div className='row ' style={{padding:10}}>
         <div className='col-md-6 ' style={{marginLeft:20}}>
-            <h2> {region.nomRegion}</h2>
-            
-           {/*  {
-                region.coordonnateur_region !== undefined ? (
-                    <>
-                        {console.log(region.coordonnateur_region)}
-                        <h5 >Nom coordonnateur : {region.coordonnateur_region.nomPersonnel}-{region.coordonnateur_region.prenomPersonnel}</h5>
-                         <h5 >Numero coordonnateur: {region.coordonnateur_region.tel}</h5> 
-                    </>
-                    
-                ) : (
-                    <p>pas de district</p>
-                )
-            } */}
+                
+            {region.nomRegion != undefined ? (
+            <h2>Region : {region.nomRegion.toUpperCase()}</h2>
+            ) : (
+                
+                <p>Pas de nom region</p>
+                
+            )}
+
+                
+            {region.bureau != undefined ? (
+                <div>       
+                    {region.bureau.poste != undefined ? (
+                        <>
+                        <a href='#' style={{textDecoration:'none',color:'black'}}>
+                            <p style={{fontSize:20}}>
+                                Coordonateur Region {region.nomRegion.toUpperCase()} : 
+                                {region.bureau.poste.coordonateur.nomPersonnel}-{region.bureau.poste.coordonateur.prenomPersonnel}-
+                                {region.bureau.poste.coordonateur.tel}
+                            </p>
+                        </a>
+                        </>
+                    ) : (
+                        <h5>Pas de coordonateur</h5>
+                    )}                         
+                </div>
+            ) : (
+                
+                <p>Pas de coordonateur</p>
+                
+            )}
 
             
-            <div className='card navgauche'>
-                <h5 className='card-title' style={{textAlign:'center',padding:20}}>MEMBRE DU BUREAU REGION {region.nomRegion} </h5>
-                <h5  >Président: Rakoto Patrick <h6 style={{float:'right'}}> 0340512356</h6></h5>
-                <h5  >Vice Président: RABE louise <h6 style={{float:'right'}}> 0340512356</h6></h5>
-                <h5  >Secrétaire géneral:RANDRIA charline <h6 style={{float:'right'}}> 0340512356</h6></h5>   
+          
+
+                    
+            {region.bureau != undefined ? (
+                <div className='card navgauche'>
+                <h5 className='card-title' style={{textAlign:'center',padding:20}}>MEMBRE DU BUREAU REGION {region.nomRegion.toUpperCase()} </h5>
+                 {region.bureau.president != undefined ? (
+                <>
+                    <h5  >Président : {region.bureau.president.nomPersonnel}<h6 style={{float:'right'}}> {region.bureau.president.tel}</h6></h5>
+                    
+                </>
+                ) : (
+                    <h5>Pas de president</h5>
+                )}
+                {/* <h5  >Vice-Président : RANDRIA <h6 style={{float:'right'}}> 0340512356</h6></h5>
+                    <h5  >Secrétaire Général : {region.bureau.secretaireGeneral.nomPersonnel}<h6 style={{float:'right'}}> {region.bureau.secretaireGeneral.tel}</h6></h5>
+                    <h5  >Trésorier : {region.bureau.tresorier.nomPersonnel}<h6 style={{float:'right'}}> {region.bureau.tresorier.tel}</h6></h5>
+                    <h5  >Commissaire aux Comptes : {region.bureau.commissaireAuxCompte.nomPersonnel}<h6 style={{float:'right'}}> {region.bureau.commissaireAuxCompte.tel}</h6></h5>
+                    <h5  >Responsable Communication : {region.bureau.responsableCommunication.nomPersonnel}<h6 style={{float:'right'}}> {region.bureau.responsableCommunication.tel}</h6></h5>
+                    <h5  >Secrétaire : {region.bureau.secretaire.nomPersonnel}<h6 style={{float:'right'}}> {region.bureau.secretaire.tel}</h6></h5>
+                    <h5  >Conseillers : DOLONIAINA {/* {region.bureau.poste.president.nomPersonnel}  <h6 style={{float:'right'}}> 0345612547  {region.bureau.poste.president.tel}  </h6></h5>
+ */}
             </div>
+            ) : (
+                    
+                <p>Pas de membre de bureau</p>
+                
+            )}
         </div>
-        {region.districts !== undefined ? (
+        {region.districts != undefined ? (
         <div className='row col-md-5 mx-auto '>
-        <h2>Liste des district du region : <strong>{region.nomRegion}</strong></h2>
+        <h2>Liste des districts de la region : <strong>{region.nomRegion.toUpperCase()}</strong></h2>
         {
             region.districts.map((liste) =>( 
-                <div key={liste.id} className="card col-md-4" style={{width:245, marginLeft:10,marginTop:10
+                <div key={liste.id} className="card col-md-4 " style={{width:245,height:140, marginLeft:10,marginTop:10
                     }}>
                         
                     <div className="card-body">
-                        <Link style={{textDecoration:'none'}} to={`/DistrictRegion/${liste.id}`} ><h5 className="card-title">{liste.nomDistrict}</h5></Link>
+                        
+                        <Link style={{textDecoration:'none'}} to={`/Commune/${liste.id}`}  ><h5 className="card-title">{liste.nomDistrict}</h5></Link>
+                       
                         <div>
                             <a href='#' style={{textDecoration:'none',color:'black'}}>
-                                <p>Nom coordonnateur : Nom et prenom</p>
-                                <p>numero coordonnateur :numero telephone</p>
+                                <h6>Nom et prenom</h6>
+                                <h6>numero </h6>
                             </a>
                         </div>       
                     </div>

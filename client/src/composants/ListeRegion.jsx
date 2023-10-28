@@ -8,6 +8,8 @@ import Api from './Api';
 function ListeRegion() {
     const view = useNavigate();
     const [region,SetRegion] =useState([]);
+
+    
     
     useEffect(() => {
         getRegions();
@@ -24,6 +26,7 @@ function ListeRegion() {
         
             SetRegion(res.data);
             
+            
         });
     }
 
@@ -31,17 +34,11 @@ function ListeRegion() {
     view('/ListeBureau');
   }
 
+  console.log(region);
+
        
 
-  const [isPopupOpen, setPopupOpen] = useState(false);
-
-  const openPopup = () => {
-    setPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setPopupOpen(false);
-  };
+ 
   
   return (
     <>
@@ -57,37 +54,48 @@ function ListeRegion() {
     {
         region.map(
             liste => 
-            <div key={liste.id} className="card" style={{width: 250,height:'auto'
+            <div key={liste.id} className="card" style={{width: 250,height:'auto'   
                 ,marginTop:20,marginBottom:20,marginLeft:30
                 }}>
                     
                 <div className="card-body">
-                <Link style={{textDecoration:'none'}} to={`/DistrictRegion/${liste.id}`} ><h5 className="card-title">{liste.nomRegion}</h5></Link>
+                <Link style={{textDecoration:'none'}} to={`/DistrictRegion/${liste.id}`} ><h5 className="card-title">{liste.nomRegion.toUpperCase()}</h5></Link>
+                {liste.coach != undefined ? (
+                        <>
+                        <p style={{marginTop:5,color:'white',backgroundColor:'#0855E6',borderRadius:10,fontSize:12}}>
+                            Coach:{liste.coach.nomPersonnel} {liste.coach.prenomPersonnel} / Tel:{liste.coach.tel} 
+                        </p>
+                        </>
+                    ) : (
+                        <h5>Pas de coach</h5>
+                    )}
                 <div>
                     <a href='#' style={{textDecoration:'none',color:'black'}}>
-                        
-                        <p>Nom coordonnateur : Nom et prenom</p>
-                        <p>numero coordonnateur :numero telephone</p>
-                    </a>
-                </div>
-                 
-                    {/* {liste.coordonnateur_region !== null ? (
+                    {liste.bureau != null ? (
                         <div>
-                            <a href='#' style={{textDecoration:'none'}}>
-                                {console.log(liste.coordonnateur_region)}
-                                <p>Nom coordonnateur : {liste.coordonnateur_region.nomPersonnel} {liste.coordonnateur_region.prenomPersonnel}</p>
-                                <p>numero coordonnateur :{liste.coordonnateur_region.tel}</p>
-                            </a>
+                            {liste.bureau.coordonateur != undefined ? (
+                                <>
+                                <a href='#' style={{textDecoration:'none',color:'black'}}>
+                                    <p style={{color:'black',backgroundColor:'#F2E922 ',borderRadius:10,fontSize:12}}> Coordo :
+                                        {liste.bureau.coordonateur.nomPersonnel}-{liste.bureau.coordonateur.prenomPersonnel} tel : {liste.bureau.coordonateur.tel} 
+                                    </p>
+                                </a>
+                                </>
+                            ) : (
+                                <h5>Pas de coordonateur</h5>
+                            )}
+                            
+                               
+                            
                         </div>
                 ) : (
                     
-                    <p>loading</p>
+                    <p>Pas de coordonateur</p>
                     
-                )} */}
-  
-                        
-                       
-                    
+                )}
+                    </a>
+                </div>
+     
                 </div>
             </div>
         )
